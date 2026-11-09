@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Stockly.Views.ResumoReservaPage"
+             BackgroundColor="#F3F6FB">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="26" RowSpacing="8">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,20">
+            <Label Text="{Binding UsuarioSelecionado.Nome, StringFormat='Movimentações de: {0}'}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="#173B72"/>
+
+            <Frame BackgroundColor="White" BorderColor="#E3EAF3" CornerRadius="16" Padding="18">
+                <VerticalStackLayout>
+                    <Label Text="Total de Reservas/Ações" TextColor="#718096" FontSize="14"/>
+                    <Label Text="{Binding TotalMovimentacoes}" TextColor="#172B4D" FontSize="20" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding ListaReservas}">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum histórico encontrado para este usuário."
+                       HorizontalOptions="Center" VerticalOptions="Center" TextColor="#718096"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="#E3EAF3" BackgroundColor="White" CornerRadius="14" Margin="0,6" Padding="18" HasShadow="True">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding NomeProduto}" FontAttributes="Bold" TextColor="Blue" FontSize="16"/>
+                                <Label Text="{Binding DataHora, StringFormat='Data: {0:dd/MM/yyyy HH:mm}'}" TextColor="Blue" FontSize="12"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+                Text="Voltar"
+                Command="{Binding VoltarCommand}"
+                BackgroundColor="#173B72"
+                TextColor="White"
+                CornerRadius="16"
+                HeightRequest="50"
+                Margin="0,15,0,0"/>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Stockly.Views.RegistroPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F3F6FB">
+
+    <Grid>
+        <ScrollView VerticalOptions="Center">
+
+            <Frame HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   WidthRequest="470" 
+                   BackgroundColor="#F3F6FB" 
+                   BorderColor="#DCE4EF" 
+                   CornerRadius="16" 
+                   HasShadow="True"
+                   Padding="42">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Cabeçalho -->
+                    <Label Text="Nova Conta" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="#173B72" 
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="Preencha os dados abaixo para fazer parte do Stockly" 
+                           FontSize="14" 
+                           TextColor="#718096" 
+                           HorizontalOptions="Center" 
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                    <!-- Campo Nome -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Nome Completo:" FontAttributes="Bold" TextColor="#203B60"/>
+                        <Frame BorderColor="#DCE4EF" BackgroundColor="#F1F5FA" CornerRadius="16" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Entry TextColor="#172B4D" BackgroundColor="Transparent" Placeholder="Ex: João da Silva" Text="{Binding Nome}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo CPF -->
+                    <VerticalStackLayout Spacing="5">
+
+                        <Label Text="CPF:"
+                               FontAttributes="Bold"
+                               TextColor="#203B60"/>
+
+                        <Frame BorderColor="#DCE4EF"
+                               BackgroundColor="#F1F5FA"
+                               CornerRadius="16"
+                               Padding="15,0"
+                               HasShadow="False"
+                               HeightRequest="45">
+
+                            <Entry TextColor="#172B4D"
+                               BackgroundColor="Transparent"
+                               Keyboard="Numeric"
+                               Placeholder="Apenas números"
+                               Text="{Binding CPF}"/>
+                        </Frame>
+
+                    </VerticalStackLayout>
+
+                    <!-- Campo e-mail -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="E-mail:" FontAttributes="Bold" TextColor="#203B60"/>
+                        <Frame BorderColor="#DCE4EF" BackgroundColor="#F1F5FA" CornerRadius="16" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Entry TextColor="#172B4D" BackgroundColor="Transparent" Keyboard="Email" Placeholder="exemplo@stockly.com" Text="{Binding Email}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo senha -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Senha:" FontAttributes="Bold" TextColor="#203B60"/>
+                        <Frame BorderColor="#DCE4EF" BackgroundColor="#F1F5FA" CornerRadius="16" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Entry Grid.Column="0" 
+                                       TextColor="#172B4D" 
+                                       BackgroundColor="Transparent" 
+                                       Placeholder="Crie uma senha" 
+                                       Text="{Binding Senha}"
+                                       VerticalOptions="Center"
+                                       IsPassword="True">
+                                    <Entry.Triggers>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" Value="True">
+                                            <Setter Property="IsPassword" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" Value="False">
+                                            <Setter Property="IsPassword" Value="True" />
+                                        </DataTrigger>
+                                    </Entry.Triggers>
+                                </Entry>
+                                <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                                    <CheckBox x:Name="CheckMostrarSenha" Color="Green" />
+                                    <Label Text="Mostrar" 
+                                           TextColor="#718096" 
+                                           VerticalOptions="Center" 
+                                           FontSize="12">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo Confirmar Senha -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Confirmar Senha:" FontAttributes="Bold" TextColor="#203B60"/>
+                        <Frame BorderColor="#DCE4EF" BackgroundColor="#F1F5FA" CornerRadius="16" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Entry Grid.Column="0" 
+                                       TextColor="#172B4D" 
+                                       BackgroundColor="Transparent" 
+                                       Placeholder="Repita a sua senha" 
+                                       Text="{Binding ConfirmarSenha}"
+                                       VerticalOptions="Center"
+                                       IsPassword="True">
+                                    <Entry.Triggers>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" Value="True">
+                                            <Setter Property="IsPassword" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" Value="False">
+                                            <Setter Property="IsPassword" Value="True" />
+                                        </DataTrigger>
+                                    </Entry.Triggers>
+                                </Entry>
+                                <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                                    <CheckBox x:Name="CheckMostrarConfirmarSenha" Color="Green" />
+                                    <Label Text="Mostrar" 
+                                           TextColor="#718096" 
+                                           VerticalOptions="Center" 
+                                           FontSize="12">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Mensagem de erro da senha -->
+                        <Label Text="{Binding MensagemValidacaoSenha}" 
+                               IsVisible="{Binding ExibirMensagemErroSenha}" 
+                               TextColor="#C2414B" 
+                               FontSize="12" 
+                               Margin="5,0,0,0" />
+
+                    </VerticalStackLayout>
+
+                    <!-- Botões de Ação -->
+                    <VerticalStackLayout Spacing="10" Margin="0,20,0,0">
+                        <Button Text="Confirmar Cadastro" 
+                            FontAttributes="Bold" 
+                            FontSize="16" 
+                            TextColor="White" 
+                            BackgroundColor="#173B72" 
+                            CornerRadius="16" 
+                            HeightRequest="50" 
+                            Command="{Binding SalvarCadastroCommand}"/>
+
+                        <Button Text="Voltar para o Login" 
+                            FontAttributes="Bold" 
+                            FontSize="14" 
+                            TextColor="#718096" 
+                            BackgroundColor="Transparent" 
+                            HorizontalOptions="Center"
+                            Command="{Binding VoltarCommand}"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

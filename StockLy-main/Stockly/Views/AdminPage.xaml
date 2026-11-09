@@ -1,0 +1,147 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Stockly.Views.AdminPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F3F6FB">
+
+    <Grid RowDefinitions="Auto, *" Padding="28">
+
+        <!-- ================= CABEÇALHO (HEADER) ================= -->
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,26">
+            <!-- Título e Logo -->
+            <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+                <Label Text="Stockly" FontSize="30" FontAttributes="Bold" TextColor="#173B72" />
+                <Label Text="|" FontSize="24" TextColor="#718096" />
+                <Label Text="Painel de Controle do Administrador" FontSize="20" TextColor="#203B60" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Usuário e Logout -->
+            <HorizontalStackLayout Grid.Column="1" Spacing="20" VerticalOptions="Center">
+                <Label Text="{Binding NomeUsuarioLogado, StringFormat='Olá, Admin {0}'}" 
+                   FontSize="16" FontAttributes="Bold" TextColor="#203B60" VerticalOptions="Center" />
+
+                <Button Text="Sair da Conta" 
+                    Command="{Binding SairCommand}" 
+                    BackgroundColor="Transparent" 
+                    TextColor="#C2414B" 
+                    BorderColor="#E7B7BC"
+                    BorderWidth="1"
+                    CornerRadius="16" 
+                    HeightRequest="40" 
+                    Padding="15,0" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- ================= CORPO DA PÁGINA (COLUNAS) ================= -->
+        <!-- Coluna Esquerda (Formulário) | Coluna Direita (Listas) -->
+        <Grid Grid.Row="1" ColumnDefinitions="4*, 6*" ColumnSpacing="24">
+
+            <!-- COLUNA ESQUERDA: Cadastro/Gerenciamento de Produto -->
+            <Frame Grid.Column="0" BackgroundColor="White" BorderColor="#E3EAF3" CornerRadius="16" Padding="25" HasShadow="True" VerticalOptions="Start">
+                <StackLayout Spacing="15">
+                    <Label Text="Gerenciar Produto" FontSize="22" FontAttributes="Bold" TextColor="#172B4D" Margin="0,0,0,10"/>
+
+                    <Label Text="Nome do Produto:" FontAttributes="Bold" TextColor="#203B60"/>
+                    <Entry TextColor="#172B4D" BackgroundColor="#F1F5FA" Placeholder="Ex: Teclado Mecânico" Text="{Binding ProdutoSelecionado.Nome}"/>
+
+                    <Label Text="Descrição:" FontAttributes="Bold" TextColor="#203B60" />
+                    <Entry TextColor="#172B4D" BackgroundColor="#F1F5FA" Placeholder="Detalhes do item" Text="{Binding ProdutoSelecionado.Descricao}"/>
+
+                    <Label Text="Quantidade em Estoque:" FontAttributes="Bold" TextColor="#203B60" />
+                    <Entry TextColor="#172B4D" BackgroundColor="#F1F5FA" Keyboard="Numeric" Placeholder="Ex: 50" Text="{Binding ProdutoSelecionado.Quantidade}"/>
+
+                    <!-- Botões de Ação Lado a Lado -->
+                    <Grid ColumnDefinitions="*,*,*" Margin="0,20,0,0" ColumnSpacing="10">
+
+                        <Button Grid.Column="0"
+                                Text="Novo"
+                                FontAttributes="Bold"
+                                TextColor="#173B72"
+                                BackgroundColor="Transparent"
+                                BorderColor="#173B72"
+                                BorderWidth="1"
+                                CornerRadius="16"
+                                HeightRequest="50"
+                                Command="{Binding NovoProdutoCommand}"/>
+
+                                            <Button Grid.Column="1"
+                                Text="Salvar"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                BackgroundColor="#173B72"
+                                CornerRadius="16"
+                                HeightRequest="50"
+                                Command="{Binding SalvarProdutoCommand}"
+                                CommandParameter="{Binding ProdutoSelecionado}"/>
+
+                        <Button Grid.Column="2"
+                                Text="Excluir"
+                                FontAttributes="Bold"
+                                TextColor="#C2414B"
+                                BackgroundColor="Transparent"
+                                BorderColor="#E7B7BC"
+                                BorderWidth="1"
+                                CornerRadius="16"
+                                HeightRequest="50"
+                                Command="{Binding ExcluirProdutoCommand}"
+                                CommandParameter="{Binding ProdutoSelecionado}"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <!-- COLUNA DIREITA: Listagens -->
+            <Grid Grid.Column="1" RowDefinitions="*, *" RowSpacing="20">
+
+                <!-- Bloco de Estoque -->
+                <Frame Grid.Row="0" BackgroundColor="White" BorderColor="#E3EAF3" CornerRadius="16" Padding="22" HasShadow="True">
+                    <Grid RowDefinitions="Auto, *">
+                        <Label Grid.Row="0" Text="Estoque Atual" FontSize="20" FontAttributes="Bold" TextColor="#172B4D" Margin="0,0,0,15"/>
+
+                        <CollectionView Grid.Row="1" ItemsSource="{Binding ListaProdutos}" SelectedItem="{Binding ProdutoSelecionadoNaLista, Mode=TwoWay}" SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#E4EAF2" BackgroundColor="#F8FAFD" CornerRadius="12" Padding="16" Margin="0,0,0,10">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <VerticalStackLayout Grid.Column="0">
+                                                <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="16" TextColor="#172B4D" />
+                                                <Label Text="{Binding Descricao}" FontSize="12" TextColor="#718096" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="1" Text="{Binding Quantidade, StringFormat='{0} un.'}" FontAttributes="Bold" FontSize="18" TextColor="#173B72" VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Frame>
+
+                <!-- Bloco de Histórico -->
+                <Frame Grid.Row="1" BackgroundColor="White" BorderColor="#E3EAF3" CornerRadius="16" Padding="22" HasShadow="True">
+                    <Grid RowDefinitions="Auto, *">
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,15">
+                            <Label Grid.Column="0" Text="Histórico de Movimentações" FontSize="20" FontAttributes="Bold" TextColor="#172B4D" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="Atualizar Lista" FontAttributes="Bold" TextColor="#173B72" BackgroundColor="Transparent" Command="{Binding VerHistoricoGeralCommand}" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <CollectionView Grid.Row="1" 
+                                        ItemsSource="{Binding ListaHistorico}"
+                                        SelectionMode="Single"
+                                        SelectionChanged="OnHistoricoSelecionado">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="2*, 3*, *" Padding="10,15" Margin="0,0,0,5" BackgroundColor="#F7F9FC">
+                                        <Label Grid.Column="0" Text="{Binding NomeUsuario, StringFormat='👤 {0}'}" FontAttributes="Bold" TextColor="#172B4D" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Text="{Binding NomeProduto, StringFormat='Reservou: {0}'}" TextColor="#203B60" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding DataHora, StringFormat='{0:dd/MM HH:mm}'}" FontSize="12" TextColor="#718096" HorizontalOptions="End" VerticalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Frame>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>
+
